@@ -45,7 +45,12 @@ body {
 
 .leaflet-container {
   font-family: inherit;
-  filter: invert(100%) hue-rotate(180deg) brightness(85%) contrast(85%);
+  background: #1a2035 !important;
+}
+
+/* Dark map tiles using hue-rotate on tiles only (not the whole container) */
+.leaflet-tile {
+  filter: brightness(0.75) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
 }
 
 .leaflet-control-attribution {
