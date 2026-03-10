@@ -1,82 +1,88 @@
-# PH Toll & Fuel Calculator PWA
+# PH Toll & Fuel Calculator 🛣️⛽
 
-A responsive, mobile-friendly Next.js Progressive Web App (PWA) for estimating total travel costs (toll fees + diesel fuel) for road trips in the Philippines.
+A modern, mobile-responsive web application designed for Philippine road trips. Estimate toll fees (NLEX, SCTEX, TPLEX) and fuel costs with high accuracy, featuring smart address autocomplete and map pinning.
 
-## Features
-- 🛣️ Calculates distance using a heuristic/simulated routing layer.
-- ⛽ Estimates fuel costs based on customizable distance, vehicle efficiency, and diesel prices.
-- 💳 Calculates toll fees for common segments (NLEX, SCTEX, TPLEX) automatically on matching routes.
-- 🌐 Fully usable offline as a PWA (can be installed to your mobile home screen).
-- 💾 Persists your recent routes, preferred diesel price, and van profile locally in `localStorage`.
-- 📊 Cost breakdown with optional contingency buffers.
+## 🚀 Features
 
-## Setup Instructions
+- **Smart Address Autocomplete**: Real-time Philippine place suggestions using Nominatim (OpenStreetMap).
+- **Interactive Map Picker**: Drop a pin anywhere in the Philippines to set your origin or destination.
+- **Dynamic Toll Matrix**: 
+  - Supports **Class 1, 2, and 3** vehicles.
+  - Covers **NLEX, SCTEX, and TPLEX** with up-to-date rates.
+  - **Local-Aware Routing**: Residents of Bulacan/Marilao get optimized "Nearest Exit" suggestions (e.g., skips Balintawak segment automatically).
+- **Comprehensive Estimates**:
+  - Distance-based fuel calculation.
+  - Round-trip support (doubles tolls and distance).
+  - Customizable Efficiency (km/L) and Fuel Price.
+  - 10% (or custom) Contingency Buffer for snacks and traffic.
+- **Premium UI**: 
+  - Dark-mode inspired results with vibrant blue accents.
+  - Glassmorphic modal designs (fully opaque for clarity).
+  - Visual Route Breadcrumbs (Origin ➔ Destination).
 
-Ensure you have Node.js installed.
-1. Install dependencies:
+## 🛠️ Technology Stack
+
+- **Framework**: [Next.js 14+](https://nextjs.org/) (App Router)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Maps**: [Leaflet](https://leafletjs.org/) + [React Leaflet](https://react-leaflet.js.org/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Geocoding**: [Nominatim API](https://nominatim.org/) (Proxy via Next.js API Routes)
+- **Language**: TypeScript
+
+## 📂 Project Structure
+
+```text
+src/
+├── app/
+│   ├── api/geocode/      # Backend proxy for Nominatim (prevents CORS & rate-limiting)
+│   ├── page.tsx          # Main Application Shell
+│   └── globals.css       # Design System & Tailwind base
+├── components/
+│   ├── MapPicker.tsx     # Leaflet Map Modal & Search
+│   ├── CalculatorForm.tsx# Main Input Engine & Toll Logic
+│   └── ResultsDisplay.tsx# Final Cost Breakdown Modal
+├── config/
+│   └── data.ts           # Centralized Toll Rates & Fuel Prices
+├── services/
+│   ├── geocoding.ts      # Fetch logic for addresses
+│   └── routing.ts        # Smart Distance Heuristic Library
+└── utils/
+    └── calculator.ts     # Pure math for fuel, tolls, and totals
+```
+
+## 📝 How to Use & Customize
+
+### Adding New Tolls
+Modify `src/config/data.ts`. Add a new entry to the `TOLL_RATES` array:
+```typescript
+{
+  id: "mcx-daang-hari",
+  name: "Daang Hari to SLEX",
+  expressway: "MCX",
+  rates: { "Class 1": 17, "Class 2": 35, "Class 3": 52 }
+}
+```
+
+### Updating Fuel Prices
+The default prices are set in `src/config/data.ts` under `DEFAULT_DIESEL_PRICE` and `DEFAULT_UNLEADED_PRICE`.
+
+## 🏗️ Development Setup
+
+1. **Install Dependencies**:
    ```bash
    npm install
    ```
-2. Start the development server:
+
+2. **Run Locally**:
    ```bash
    npm run dev
    ```
-3. Open [http://localhost:3000](http://localhost:3000) in your browser.
+   Open [http://localhost:3000](http://localhost:3000)
 
-Build for production:
-```bash
-npm run build
-npm start
-```
+3. **Build for Production**:
+   ```bash
+   npm run build
+   ```
 
----
-
-## How to Manually Update Toll Fees and Diesel Defaults
-
-Because this app uses a static data file for extreme reliability and avoiding unnecessary database/server overhead, you can easily update the core prices whenever values change holding local data. 
-
-To update the values, open the file located at:
-`src/config/data.ts`
-
-### Updating Diesel Default Price
-Locate the `DEFAULT_DIESEL_PRICE` variable at the top of the file:
-```ts
-export const DEFAULT_DIESEL_PRICE = 58.50; // PHP per liter
-```
-Change `58.50` to the new pump price. Wait for your deployment/build to refresh to see the new default. Note: Users with existing `localStorage` preferences will still see their last manually entered price overriding this, but the default fallback is updated!
-
-### Updating Toll Rates
-Locate the `TOLL_RATES` array. Each entry looks like this:
-```ts
-{
-  id: "nlex-balintawak-marilao",
-  name: "Balintawak to Marilao",
-  expressway: "NLEX",
-  rates: {
-    "Class 1": 74,
-    "Class 2": 186,
-    "Class 3": 223
-  }
-}
-```
-Simply edit the numbers `74`, `186`, etc., to the newly announced toll prices. Save the file and rebuild the app.
-
-### Updating the "Last Updated" Meta Dates
-To let users (or yourself) know how fresh the data is, update `CONFIG_META`:
-```ts
-export const CONFIG_META = {
-  DIESEL_LAST_UPDATED: "2024-05-15",
-  TOLLS_LAST_UPDATED: "2024-05-15",
-};
-```
-
-## Running Tests
-Basic test calculations are implemented in `src/utils/calculator.test.ts` as pure node assert commands. Execute them to verify functionality if you radically alter the calculator logic:
-```bash
-npx ts-node src/utils/calculator.test.ts
-```
-
-## Future Extensibility
-This codebase is structured with clear Service boundaries (`src/services/tolls.ts`, `src/services/routing.ts`). To upgrade to V2 with live integration:
-1. Map `src/services/routing.ts` to Mapbox and OSRM (or Google Maps).
-2. Rewrite `src/config/data.ts` exports to be dynamic `fetch` calls to a Database or scraping microservice.
+## 📜 License
+This project is built for the Philippine community. Drive safe! 🇵🇭
