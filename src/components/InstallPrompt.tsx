@@ -127,42 +127,39 @@ export function InstallPrompt() {
               : "opacity-0 translate-y-2 scale-95 pointer-events-none"
           }`}
         >
-          <div className="relative bg-slate-900 border border-blue-500/40 text-white text-xs font-black px-4 py-3 rounded-2xl shadow-[0_0_30px_rgba(59,130,246,0.3)] max-w-[200px] text-center uppercase tracking-widest">
-            <div className="text-blue-400 text-[10px] mb-1">
+          <div className="relative bg-slate-900 border border-blue-500/40 text-white text-[11px] font-black px-4 py-3 rounded-2xl shadow-[0_0_30px_rgba(59,130,246,0.3)] max-w-[190px] text-center uppercase tracking-widest leading-snug">
+            <div className="text-blue-400 text-[9px] mb-1">
               {isAndroid ? "📱 Android" : "🍎 iOS"}
             </div>
-            Install Back-Toll for quick access!
-            {/* Arrow */}
-            <div className="absolute -bottom-2 right-5 w-3 h-3 bg-slate-900 border-r border-b border-blue-500/40 rotate-45" />
+            Install for quick access!
+            {/* Arrow pointing down-right */}
+            <div className="absolute -bottom-2 right-6 w-3 h-3 bg-slate-900 border-r border-b border-blue-500/40 rotate-45" />
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          {/* Dismiss X */}
+        <div className="flex items-end gap-2">
+          {/* Dismiss X — tiny */}
           <button
             onClick={handleDismiss}
-            className="w-7 h-7 rounded-full bg-slate-800 border border-slate-700 text-slate-400 hover:text-white text-xs flex items-center justify-center transition-all"
+            className="w-6 h-6 mb-1 rounded-full bg-slate-800 border border-slate-700 text-slate-500 hover:text-white text-[9px] flex items-center justify-center transition-all"
             title="Dismiss"
           >
             ✕
           </button>
 
-          {/* Main Install Button — bouncing animation */}
+          {/* Round Icon Button */}
           <button
             onClick={handleInstall}
-            className="relative flex items-center gap-2.5 bg-blue-600 hover:bg-blue-500 text-white font-black px-5 py-3.5 rounded-2xl shadow-[0_0_30px_rgba(37,99,235,0.6)] transition-all active:scale-95 animate-bounce"
+            title={isAndroid ? "Install on Android" : "Install on iOS"}
+            className="relative w-14 h-14 rounded-full bg-blue-600 hover:bg-blue-500 flex items-center justify-center shadow-[0_0_25px_rgba(37,99,235,0.7)] border-2 border-blue-400/50 transition-all active:scale-95 animate-bounce"
             style={{ animationDuration: "2s" }}
           >
             {/* Pulse ring */}
-            <span className="absolute inset-0 rounded-2xl bg-blue-500 animate-ping opacity-20" />
-
-            <span className="text-lg">{isAndroid ? "📲" : "⬇️"}</span>
-            <div className="flex flex-col items-start leading-tight">
-              <span className="text-[10px] text-blue-200 uppercase tracking-widest leading-none">
-                {isAndroid ? "Add to Home" : "Install App"}
-              </span>
-              <span className="text-sm leading-none">Back-Toll</span>
-            </div>
+            <span className="absolute inset-0 rounded-full bg-blue-500 animate-ping opacity-20" />
+            {/* Icon */}
+            <span className="text-2xl leading-none relative z-10">
+              {isAndroid ? "🤖" : "🍎"}
+            </span>
           </button>
         </div>
       </div>
