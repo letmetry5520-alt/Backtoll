@@ -7,10 +7,10 @@ import { TollEntry } from "../types";
 export const CONFIG_META = {
   DIESEL_PRICE_DATE: "2024-05-20",
   GASOLINE_PRICE_DATE: "2024-05-20",
-  TOLLS_LAST_UPDATED: "2024-05-15",
+  TOLLS_LAST_UPDATED: "2025-03-02",
   SOURCES: {
     FUEL: "DOE Price Monitor",
-    TOLLS: "TRB Monitoring"
+    TOLLS: "TRB Monitoring (March 2025 Update)"
   }
 };
 
@@ -29,9 +29,9 @@ export const TOLL_RATES: TollEntry[] = [
     name: "Balintawak to Marilao",
     expressway: "NLEX",
     rates: {
-      "Class 1": 74,
-      "Class 2": 186,
-      "Class 3": 223
+      "Class 1": 79,
+      "Class 2": 199,
+      "Class 3": 238
     }
   },
   {
@@ -39,9 +39,9 @@ export const TOLL_RATES: TollEntry[] = [
     name: "Marilao to Dau",
     expressway: "NLEX",
     rates: {
-      "Class 1": 257,
-      "Class 2": 643,
-      "Class 3": 772
+      "Class 1": 337,
+      "Class 2": 840,
+      "Class 3": 1009
     }
   },
   {
@@ -49,9 +49,9 @@ export const TOLL_RATES: TollEntry[] = [
     name: "Mabalacat to Tarlac",
     expressway: "SCTEX",
     rates: {
-      "Class 1": 133,
-      "Class 2": 266,
-      "Class 3": 399
+      "Class 1": 158,
+      "Class 2": 316,
+      "Class 3": 474
     }
   },
   {
