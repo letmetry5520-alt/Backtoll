@@ -189,23 +189,18 @@ const MapPickerContent: React.FC<MapPickerProps> = ({ onSelect, onClose }) => {
               {position && <Marker position={position} icon={icon} />}
             </MapContainer>
 
-            <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[1000] w-full px-6 max-w-xs">
-               <div className="bg-slate-950 shadow-2xl border border-white/10 p-4 rounded-3xl text-center backdrop-blur-md">
-                  <p className="text-[8px] font-black text-blue-500 uppercase tracking-[0.3em] mb-1.5 opacity-80">Operational Guide</p>
-                  <p className="text-[10px] font-bold text-white uppercase tracking-widest leading-relaxed">Tap Anywhere on the Map to Pin Location</p>
-               </div>
-            </div>
+
           </div>
 
-          <div className="p-6 bg-slate-950 border-t border-white/5 space-y-5">
-            <div className="min-h-[4rem] p-4 bg-slate-900 border border-slate-800 rounded-3xl flex items-center gap-4">
+          <div className="p-3 bg-slate-950 border-t border-white/5 space-y-3">
+            <div className="p-3 bg-slate-900 border border-slate-800 rounded-2xl flex items-center gap-3">
               <div className="shrink-0">
-                <div className={`w-3.5 h-3.5 rounded-full ${position ? "bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)] animate-pulse" : "bg-slate-800"}`}></div>
+                <div className={`w-3 h-3 rounded-full ${position ? "bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.5)] animate-pulse" : "bg-slate-800"}`}></div>
               </div>
               <div className="flex-1 overflow-hidden">
-                <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] mb-1">Target Coordinates</p>
-                <p className="text-[11px] text-white font-black truncate tracking-tight uppercase">
-                  {loading ? "SYSTEM DECODING..." : address || (position ? `LAT: ${position[0].toFixed(4)} LON: ${position[1].toFixed(4)}` : "AWAITING SELECTION")}
+                <p className="text-[8px] font-black text-slate-500 uppercase tracking-[0.2em] mb-0.5">Target Coordinates</p>
+                <p className="text-[10px] text-white font-black truncate tracking-tight uppercase">
+                  {loading ? "DECODING..." : address || (position ? `LAT: ${position[0].toFixed(4)} LON: ${position[1].toFixed(4)}` : "TAP MAP TO PIN")}
                 </p>
               </div>
             </div>
@@ -217,9 +212,9 @@ const MapPickerContent: React.FC<MapPickerProps> = ({ onSelect, onClose }) => {
                 else if (position) onSelect(`Marker: ${position[0].toFixed(5)}, ${position[1].toFixed(5)}`);
                 onClose();
               }}
-              className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-5 rounded-3xl shadow-[0_15px_40px_rgba(37,99,235,0.3)] transition-all flex items-center justify-center gap-3 disabled:opacity-30 uppercase tracking-[0.15em] text-xs italic"
+              className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-4 rounded-2xl shadow-[0_10px_30px_rgba(37,99,235,0.3)] transition-all flex items-center justify-center gap-3 disabled:opacity-30 uppercase tracking-[0.15em] text-xs italic"
             >
-              <Check size={20} className="stroke-[3]" />
+              <Check size={18} className="stroke-[3]" />
               FINALIZE SELECTION
             </button>
           </div>
