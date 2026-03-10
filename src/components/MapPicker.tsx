@@ -103,7 +103,7 @@ const MapPickerContent: React.FC<MapPickerProps> = ({ onSelect, onClose }) => {
     <div className="fixed inset-0 z-[99999] flex items-center justify-center p-0 sm:p-4">
       <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose}></div>
       
-      <div className="relative !bg-slate-950 w-full max-w-2xl rounded-none sm:rounded-3xl shadow-[0_0_60px_rgba(0,0,0,0.6)] flex flex-col h-full sm:h-[85vh] border border-white/5 animate-in fade-in zoom-in-95 duration-500">
+      <div className="relative !bg-slate-950 w-full max-w-2xl rounded-none sm:rounded-3xl shadow-[0_0_60px_rgba(0,0,0,0.6)] flex flex-col h-full sm:h-[90vh] border border-white/5 animate-in fade-in zoom-in-95 duration-500">
         {/* Header with Search */}
         <div className="p-5 border-b border-white/5 !bg-slate-950/90 backdrop-blur-md z-[10002] rounded-t-none sm:rounded-t-3xl">
           <div className="flex justify-between items-center mb-4">
@@ -174,11 +174,12 @@ const MapPickerContent: React.FC<MapPickerProps> = ({ onSelect, onClose }) => {
         </div>
 
         <div className="flex-1 relative overflow-hidden sm:rounded-b-3xl flex flex-col">
-          <div className="flex-1 relative">
+          {/* Map — flex-1 with explicit minimum height so it fills on mobile */}
+          <div className="flex-1 relative" style={{ minHeight: '55vh' }}>
             <MapContainer 
-              center={[12.8797, 121.7740]} // Philippines center 
+              center={[12.8797, 121.7740]}
               zoom={6} 
-              className="h-full w-full"
+              className="absolute inset-0 w-full h-full"
               ref={setMap}
             >
               <TileLayer
@@ -188,8 +189,6 @@ const MapPickerContent: React.FC<MapPickerProps> = ({ onSelect, onClose }) => {
               <LocationMarker setPosition={handleMapClick} />
               {position && <Marker position={position} icon={icon} />}
             </MapContainer>
-
-
           </div>
 
           <div className="p-3 bg-slate-950 border-t border-white/5 space-y-3">
