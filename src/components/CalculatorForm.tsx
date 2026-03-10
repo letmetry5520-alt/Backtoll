@@ -1,9 +1,11 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import { VehicleClass, UserPreferences, TollEntry, FuelType } from "../types";
 import { AddressAutocomplete } from "./AddressAutocomplete";
 import { CircleDot, MapPin, Fuel, Info } from "lucide-react";
 import { getPreferences, savePreferences, saveRecentRoute } from "../services/storage";
-import { TOLL_RATES, getSampleRouteTolls, DEFAULT_DIESEL_PRICE, DEFAULT_UNLEADED_PRICE, CONFIG_META } from "../config/data";
+import { TOLL_RATES, DEFAULT_DIESEL_PRICE, DEFAULT_UNLEADED_PRICE, CONFIG_META } from "../config/data";
 
 export interface CalculatorFormProps {
   onCalculate: (params: any) => void;
@@ -26,7 +28,6 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, isL
     setEfficiency(prefs.defaultEfficiency.toString());
     setFuelType(prefs.fuelType || "Diesel");
     
-    // Set initial price based on fuel type if no last price stored
     if (prefs.lastFuelPrice) {
       setFuelPrice(prefs.lastFuelPrice.toString());
     } else {
@@ -34,7 +35,6 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, isL
     }
   }, []);
 
-  // Update default price when fuel type changes (unless user touched it?)
   const handleFuelTypeChange = (type: FuelType) => {
     setFuelType(type);
     setFuelPrice(type === "Unleaded" ? DEFAULT_UNLEADED_PRICE.toString() : DEFAULT_DIESEL_PRICE.toString());
@@ -44,7 +44,6 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, isL
     e.preventDefault();
     if (!origin || !destination) return;
 
-    // Save prefs
     savePreferences({
       vehicleClass,
       fuelType,
@@ -59,47 +58,39 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, isL
     
     let selectedTolls: TollEntry[] = [];
     
-    // 🛣️ SMART ROUTE DETECTION (PH EXPRESSWAYS)
     const northKeywords = [
       "manila", "quezon", "bulacan", "marilao", "pampanga", "tarlac", "union", "baguio", 
-      "vigan", "laoag", "pangasinan", "ilocos", "subdivision", "valenzuela", "malabon", "caloocan",
-      "bangar", "luna", "fernando", "bauang", "bacnotan", "santo tomas", "rosario", "ulu", "dagupan", "urdaneta",
-      "clark", "subic", "zambales", "bataan", "hermosa", "dinalupihan"
+      "vigan", "laoag", "pangasinan", "ilocos", "subdivision", "valenzuela", "malabon", "caloocan"
     ];
+    const southKeywords = ["batangas", "laguna", "calamba", "lipa", "tagaytay", "naga", "albay", "bicol", "quezon province", "lucena", "legazpi", "sorsogon"];
     
-    const southKeywords = ["batangas", "laguna", "calamba", "lipa", "tagaytay", "naga", "albay", "bicol", "quezon province", "lucena"];
+    const isNorthbound = (northKeywords.some(k => o.includes(k)) || o.includes("manila")) && 
+                        ["union", "baguio", "ilocos", "tarlac", "pampanga", "pangasinan", "clark", "subic", "zambales"].some(k => d.includes(k));
     
-    const isNorthbound = northKeywords.some(k => o.includes(k)) && northKeywords.some(k => d.includes(k));
-    const isSouthbound = (o.includes("manila") || o.includes("makati") || o.includes("paranaque") || o.includes("alabang")) && southKeywords.some(k => d.includes(k));
+    const isSouthbound = southKeywords.some(k => d.includes(k)) || 
+                        (["batangas", "laguna", "cavite", "quezon", "albay", "bicol", "naga"].some(k => d.includes(k)));
+    
+    const isTraversingCity = (o.includes("bulacan") || o.includes("marilao") || o.includes("ramcar") || o.includes("subdivision")) && isSouthbound;
 
-    if (isNorthbound) {
+    if (isTraversingCity) {
+      const ids = ["nlex-balintawak-marilao", "skyway-stage3", "slex-alabang-calamba", "slex-calamba-stotomas", "star-stotomas-lipa", "star-lipa-batangas"];
+      selectedTolls = TOLL_RATES.filter(t => ids.includes(t.id));
+    }
+    else if (isNorthbound) {
       const allNorthTolls = ["nlex-balintawak-marilao", "nlex-marilao-dau", "sctex-mabalacat-tarlac", "tplex-tarlac-rosario"];
-      
-      // EXCLUSION LOGIC: Skip Balintawak segment if starting in Bulacan
       let ids = [...allNorthTolls];
       const isBulacanResident = (o.includes("marilao") || o.includes("ramcar") || o.includes("subdivision") || o.includes("bulacan")) && 
-                               !(o.includes("manila") || o.includes("quezon"));
+                                !(o.includes("manila") || o.includes("quezon"));
       
-      if (isBulacanResident) {
-        ids = ids.filter(id => id !== "nlex-balintawak-marilao");
-      }
-      
-      // Sub-route logic: If ending in Tarlac, skip TPLEX
-      if (d.includes("tarlac") || d.includes("pampanga")) {
-        ids = ids.filter(id => id.includes("nlex") || id.includes("sctex"));
-      }
-      if (d.includes("pampanga")) {
-        ids = ids.filter(id => id.includes("nlex"));
-      }
+      if (isBulacanResident) ids = ids.filter(id => id !== "nlex-balintawak-marilao");
+      if (d.includes("tarlac") || d.includes("pampanga")) ids = ids.filter(id => id.includes("nlex") || id.includes("sctex"));
+      if (d.includes("pampanga")) ids = ids.filter(id => id.includes("nlex"));
 
       selectedTolls = TOLL_RATES.filter(t => ids.includes(t.id));
     } 
     else if (isSouthbound) {
-       // Placeholder for SLEX/STAR matrix (Coming soon in full)
-       selectedTolls = [TOLL_RATES[0]]; 
-    }
-    else {
-      selectedTolls = []; 
+       const ids = ["slex-alabang-calamba", "slex-calamba-stotomas", "star-stotomas-lipa", "star-lipa-batangas"];
+       selectedTolls = TOLL_RATES.filter(t => ids.includes(t.id));
     }
 
     onCalculate({
@@ -123,7 +114,6 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, isL
   return (
     <div className="space-y-6">
       <form onSubmit={handleSubmit} className="glass-card p-6 rounded-3xl shadow-2xl space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-700">
-        
         <div className="flex justify-end">
           <button type="button" onClick={setDemoRoute} className="text-xs font-black text-blue-400 hover:text-blue-300 uppercase tracking-widest transition-colors mb-2">
               LOAD DEMO TRIP
@@ -205,11 +195,8 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, isL
           <Fuel size={20} className="text-white" />
           {isLoading ? "CALCULATING..." : "START CALCULATION"}
         </button>
-
       </form>
 
-      {/* Database/Meta Info Matrix */}
-      {/* Database/Meta Info Matrix */}
       <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-5 text-[10px] text-slate-400 space-y-4">
         <div className="flex items-center gap-2 font-black text-slate-300 uppercase tracking-[0.2em] mb-2">
           <Info size={14} className="text-blue-500" />
@@ -231,7 +218,6 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, isL
         </div>
       </div>
 
-      {/* Full Expressway Rate Guide - ALWAYS VISIBLE */}
       <div className="mt-10 space-y-5">
         <div className="flex items-center gap-2.5 px-1">
           <div className="p-2 bg-blue-500/10 text-blue-500 rounded-xl border border-blue-500/10">
@@ -241,7 +227,6 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, isL
         </div>
 
         <div className="space-y-5">
-          {/* Group tolls by Expressway */}
           {Array.from(new Set(TOLL_RATES.map(t => t.expressway))).map(exp => (
             <div key={exp} className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
               <div className="bg-slate-800/50 px-5 py-3 text-slate-100 text-[10px] font-black uppercase tracking-[0.15em] flex justify-between items-center border-b border-slate-800">
@@ -266,6 +251,10 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, isL
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="flex justify-center items-center py-6 opacity-40 hover:opacity-100 transition-opacity">
+        <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.4em]">developed by creesler</p>
       </div>
     </div>
   );

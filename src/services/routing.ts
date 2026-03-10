@@ -39,6 +39,8 @@ export const getRouteDistance = async (req: RouteRequest): Promise<RouteResponse
     if (addr.includes("tagaytay") || addr.includes("cavite")) return 65;
     if (addr.includes("naga") || addr.includes("camarines")) return 380;
     if (addr.includes("legazpi") || addr.includes("albay")) return 470;
+    if (addr.includes("sorsogon")) return 520;
+    if (addr.includes("quezon province") || addr.includes("lucena") || addr.includes("sariaya")) return 130;
     return null;
   };
 
@@ -47,18 +49,25 @@ export const getRouteDistance = async (req: RouteRequest): Promise<RouteResponse
   
   if (resolvedDist !== null) {
     distance = resolvedDist;
-    // ADJUSTMENT: If starting/ending in Marilao/Bulacan (already partway), subtract ~35km from Manila baseline
-    if ((o.includes("marilao") || d.includes("marilao")) && distance > 50) {
-      distance -= 35; 
+    // ADJUSTMENT: If starting/ending in Marilao/Bulacan/North, but going South, don't subtract.
+    // However, if both are in North/South library, adjust.
+    if ((o.includes("marilao") || o.includes("ramcar") || o.includes("bulacan")) && distance > 50) {
+      // If destination is in the North Library, we're partway there.
+      const isDestinationNorth = ["union", "baguio", "ilocos", "tarlac", "pampanga", "pangasinan", "clark", "subic"].some(k => d.includes(k));
+      if (isDestinationNorth) {
+         distance -= 35; // Bulacan is ~35km ahead for Northbound
+      } else {
+         distance += 35; // Bulacan is ~35km back for Southbound (must pass Manila)
+      }
     }
   }
 
   return new Promise(resolve => setTimeout(() => resolve({
     distanceKm: distance,
-    durationMinutes: distance * 1.5,
+    durationMinutes: distance * 1.6,
     success: true,
     message: distance === 150 
       ? "Using estimated regional distance." 
-      : `PH Route Library: Detected distance for provincial route (${distance}km).`
+      : resolvedDist ? `PH Route Library: Detected distance for ${distance}km route.` : "Standard PH Estimate."
   }), 800));
 };

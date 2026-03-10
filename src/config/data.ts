@@ -63,6 +63,66 @@ export const TOLL_RATES: TollEntry[] = [
       "Class 2": 777,
       "Class 3": 1165
     }
+  },
+  {
+    id: "slex-alabang-calamba",
+    name: "Alabang to Calamba",
+    expressway: "SLEX",
+    rates: {
+      "Class 1": 116,
+      "Class 2": 232,
+      "Class 3": 348
+    }
+  },
+  {
+    id: "slex-calamba-stotomas",
+    name: "Calamba to Sto. Tomas",
+    expressway: "SLEX",
+    rates: {
+      "Class 1": 31,
+      "Class 2": 63,
+      "Class 3": 94
+    }
+  },
+  {
+    id: "star-stotomas-lipa",
+    name: "Sto. Tomas to Lipa",
+    expressway: "STAR",
+    rates: {
+      "Class 1": 55,
+      "Class 2": 110,
+      "Class 3": 165
+    }
+  },
+  {
+    id: "star-lipa-batangas",
+    name: "Lipa to Batangas City",
+    expressway: "STAR",
+    rates: {
+      "Class 1": 49,
+      "Class 2": 98,
+      "Class 3": 147
+    }
+  },
+  {
+    id: "mcx-daanghari",
+    name: "MCX (Daang Hari to SLEX)",
+    expressway: "MCX",
+    rates: {
+      "Class 1": 19,
+      "Class 2": 39,
+      "Class 3": 58
+    }
+  },
+  {
+    id: "skyway-stage3",
+    name: "Skyway Stage 3 (Balintawak to Buendia/SLEX)",
+    expressway: "SKYWAY",
+    rates: {
+      "Class 1": 264,
+      "Class 2": 528,
+      "Class 3": 792
+    }
   }
 ];
 

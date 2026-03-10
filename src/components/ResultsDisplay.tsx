@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect } from "react";
 import { CalculationResult, TollEntry, VehicleClass, FuelType } from "../types";
 import { X, Share2, AlertCircle } from "lucide-react";
@@ -160,24 +162,25 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
                             </div>
                           </div>
 
-                          <div className="grid grid-cols-3 gap-3 pt-5 border-t border-white/5">
+                          {/* Toll Class Price List - Horizontal Rows for Better Readability */}
+                          <div className="space-y-2 pt-5 border-t border-white/5">
                             {(["Class 1", "Class 2", "Class 3"] as VehicleClass[]).map((vClass) => {
-                              const rate = t.rates[vClass] || 0;
-                              const isSelected = vClass === vehicleClass;
-                              return (
-                                <div key={vClass} className={`text-center py-2.5 rounded-2xl border transition-all ${
-                                  isSelected 
-                                    ? "bg-blue-600 border-blue-500 text-white shadow-[0_0_20px_rgba(37,99,235,0.3)] scale-105" 
-                                    : "bg-slate-900 border-slate-800 text-slate-600 opacity-60"
-                                }`}>
-                                  <div className={`text-[8px] font-black uppercase tracking-tighter mb-1 ${isSelected ? "text-blue-100" : "text-slate-500"}`}>
-                                    {vClass.replace('Class ', 'C')}
-                                  </div>
-                                  <div className={`text-[10px] font-black font-mono ${isSelected ? "text-white" : "text-slate-400"}`}>
-                                    ₱{rate}
-                                  </div>
-                                </div>
-                              );
+                               const rate = t.rates[vClass] || 0;
+                               const isSelected = vClass === vehicleClass;
+                               return (
+                                 <div key={vClass} className={`flex justify-between items-center px-5 py-3.5 rounded-2xl border transition-all ${
+                                   isSelected 
+                                     ? "bg-blue-600 border-blue-500 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)] scale-[1.02]" 
+                                     : "bg-slate-900/30 border-slate-800 text-slate-600 opacity-40 hover:opacity-100 transition-opacity"
+                                 }`}>
+                                   <div className={`text-[10px] font-black uppercase tracking-[0.15em] ${isSelected ? "text-blue-50" : "text-slate-500"}`}>
+                                      Vehicle {vClass}
+                                   </div>
+                                   <div className={`text-lg font-black font-mono ${isSelected ? "text-white" : "text-slate-400"}`}>
+                                     ₱{rate}
+                                   </div>
+                                 </div>
+                               );
                             })}
                           </div>
                         </div>
@@ -219,11 +222,13 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
             <Share2 size={18} />
             Download Summary
           </button>
+
+          {/* Branding */}
+          <div className="flex justify-center items-center py-4 opacity-30 hover:opacity-100 transition-opacity">
+            <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.4em]">developed by creesler</p>
+          </div>
         </div>
       </div>
     </div>
   );
 };
-
-
-
