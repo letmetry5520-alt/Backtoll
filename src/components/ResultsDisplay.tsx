@@ -163,20 +163,15 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
                           </div>
 
                           {/* Toll Class Price List - Horizontal Rows for Better Readability */}
-                          <div className="space-y-2 pt-5 border-t border-white/5">
-                            {(["Class 1", "Class 2", "Class 3"] as VehicleClass[]).map((vClass) => {
+                          <div className="pt-4 border-t border-white/5">
+                            {(["Class 1", "Class 2", "Class 3"] as VehicleClass[]).filter(v => v === vehicleClass).map((vClass) => {
                                const rate = t.rates[vClass] || 0;
-                               const isSelected = vClass === vehicleClass;
                                return (
-                                 <div key={vClass} className={`flex justify-between items-center px-5 py-3.5 rounded-2xl border transition-all ${
-                                   isSelected 
-                                     ? "bg-blue-600 border-blue-500 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)] scale-[1.02]" 
-                                     : "bg-slate-900/30 border-slate-800 text-slate-600 opacity-40 hover:opacity-100 transition-opacity"
-                                 }`}>
-                                   <div className={`text-[10px] font-black uppercase tracking-[0.15em] ${isSelected ? "text-blue-50" : "text-slate-500"}`}>
-                                      Vehicle {vClass}
+                                 <div key={vClass} className="flex justify-between items-center px-5 py-4 rounded-2xl bg-blue-600 border border-blue-500 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]">
+                                   <div className="text-[10px] font-black uppercase tracking-[0.15em] text-blue-50">
+                                      Your Vehicle {vClass}
                                    </div>
-                                   <div className={`text-lg font-black font-mono ${isSelected ? "text-white" : "text-slate-400"}`}>
+                                   <div className="text-xl font-black font-mono">
                                      ₱{rate}
                                    </div>
                                  </div>
