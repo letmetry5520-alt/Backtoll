@@ -209,14 +209,85 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
             </p>
           </div>
 
-          {/* Share Button Inside Modal */}
-          <button 
-            onClick={onShare}
-            className="w-full bg-slate-100 hover:bg-white text-slate-950 font-black py-5 rounded-3xl shadow-[0_20px_40px_rgba(255,255,255,0.05)] transition-all flex items-center justify-center gap-3 active:scale-95 uppercase tracking-widest text-xs italic"
-          >
-            <Share2 size={18} />
-            Download Summary
-          </button>
+          {/* Social Share Panel */}
+          {(() => {
+            const tollList = tolls.map(t => `  • ${t.name}: ₱${t.rates[vehicleClass] || 0}`).join('\n');
+            const shareText = `🚗 Back-Toll Trip Estimate\n📍 ${originName} → ${destinationName}\n💰 Total: ${formatPHP(result.grandTotal)}\n\n📋 Toll Breakdown:\n${tollList || '  • No expressway tolls'}\n⛽ Fuel: ${formatPHP(result.fuelCost)}\n\n🛣️ Calc via Back-Toll PH`;
+            const encodedText = encodeURIComponent(shareText);
+            const appUrl = "https://backtoll.vercel.app";
+            const encodedUrl = encodeURIComponent(appUrl);
+
+            const platforms = [
+              {
+                name: "Facebook",
+                icon: "f",
+                color: "bg-[#1877F2] hover:bg-[#166fe5]",
+                url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`,
+              },
+              {
+                name: "WhatsApp",
+                icon: "W",
+                color: "bg-[#25D366] hover:bg-[#20bd5a]",
+                url: `https://api.whatsapp.com/send?text=${encodedText}%20${encodedUrl}`,
+              },
+              {
+                name: "Viber",
+                icon: "V",
+                color: "bg-[#7360F2] hover:bg-[#6552e0]",
+                url: `viber://forward?text=${encodedText}`,
+              },
+              {
+                name: "Telegram",
+                icon: "T",
+                color: "bg-[#229ED9] hover:bg-[#1d8ebf]",
+                url: `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`,
+              },
+              {
+                name: "X / Twitter",
+                icon: "𝕏",
+                color: "bg-slate-900 hover:bg-slate-800 border border-slate-700",
+                url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(`🚗 Back-Toll: ${originName} → ${destinationName}\n💰 Est. Total: ${formatPHP(result.grandTotal)}\n🛣️ Calc via Back-Toll PH\n${appUrl}`)}`,
+              },
+            ];
+
+            const handleCopy = () => {
+              navigator.clipboard.writeText(`${shareText}\n${appUrl}`).then(() => {
+                alert("✅ Trip summary copied to clipboard!");
+              });
+            };
+
+            return (
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="h-1 w-10 bg-blue-600 rounded-full"></div>
+                  <h4 className="font-black text-white text-[12px] uppercase tracking-[0.2em]">Share This Trip</h4>
+                </div>
+                <div className="grid grid-cols-5 gap-2">
+                  {platforms.map(p => (
+                    <a
+                      key={p.name}
+                      href={p.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title={`Share on ${p.name}`}
+                      className={`${p.color} flex flex-col items-center justify-center gap-1 py-3.5 rounded-2xl transition-all active:scale-95 shadow-lg`}
+                    >
+                      <span className="text-white font-black text-base leading-none">{p.icon}</span>
+                      <span className="text-white/70 text-[7px] font-black uppercase tracking-widest leading-none">{p.name.split('/')[0]}</span>
+                    </a>
+                  ))}
+                </div>
+                <button
+                  onClick={handleCopy}
+                  className="w-full flex items-center justify-center gap-3 bg-slate-800 hover:bg-slate-700 text-white font-black py-4 rounded-2xl transition-all active:scale-95 uppercase tracking-widest text-xs border border-slate-700"
+                >
+                  <Share2 size={16} />
+                  Copy Trip Summary
+                </button>
+              </div>
+            );
+          })()}
+
 
           {/* Branding */}
           <div className="flex justify-center items-center py-4 opacity-30 hover:opacity-100 transition-opacity">

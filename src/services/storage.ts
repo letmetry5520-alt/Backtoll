@@ -8,9 +8,10 @@ export const getPreferences = (): UserPreferences => {
   if (typeof window === "undefined") {
     return {
       defaultEfficiency: DEFAULT_VAN_EFFICIENCY,
-      lastDieselPrice: DEFAULT_DIESEL_PRICE,
+      lastFuelPrice: DEFAULT_DIESEL_PRICE,
+      fuelType: "Diesel",
       vehicleClass: "Class 1"
-    }
+    };
   }
 
   const stored = localStorage.getItem(PREFS_KEY);
@@ -24,7 +25,8 @@ export const getPreferences = (): UserPreferences => {
 
   return {
     defaultEfficiency: DEFAULT_VAN_EFFICIENCY,
-    lastDieselPrice: DEFAULT_DIESEL_PRICE,
+    lastFuelPrice: DEFAULT_DIESEL_PRICE,
+    fuelType: "Diesel",
     vehicleClass: "Class 1"
   };
 };
