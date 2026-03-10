@@ -1,0 +1,27 @@
+
+> ph-toll-calculator@1.0.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use, trying 3001 instead.
+  ▲ Next.js 14.2.3
+  - Local:        http://localhost:3001
+
+ ✓ Starting...
+ ✓ Ready in 3.1s
+ ○ Compiling / ...
+ ✓ Compiled / in 3.4s (500 modules)
+ GET / 200 in 3848ms
+ ✓ Compiled in 433ms (256 modules)
+ GET / 200 in 127ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 2.9s (489 modules)
+ GET /icon-192x192.png 404 in 3016ms
+ GET / 200 in 189ms
+ GET /icon-192x192.png 404 in 40ms
+ GET / 200 in 55ms
+ ○ Compiling /api/geocode ...
+ ✓ Compiled /api/geocode in 572ms (275 modules)
+ GET /api/geocode?q=Manila 200 in 1656ms
+ GET /api/geocode?q=Manila 200 in 18ms
+ GET /api/geocode?q=Manila%2C%20Capital%20District%2C%20Metro%20Manila 200 in 555ms
+ GET /api/geocode?q=Bacolod 200 in 801ms
