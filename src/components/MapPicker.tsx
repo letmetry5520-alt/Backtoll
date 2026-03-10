@@ -103,16 +103,18 @@ const MapPickerContent: React.FC<MapPickerProps> = ({ onSelect, onClose }) => {
     <div className="fixed inset-0 z-[99999] flex items-center justify-center p-0 sm:p-4">
       <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose}></div>
       
-      <div className="relative !bg-white w-full max-w-2xl rounded-none sm:rounded-3xl shadow-2xl flex flex-col h-full sm:h-[85vh]">
+      <div className="relative !bg-slate-950 w-full max-w-2xl rounded-none sm:rounded-3xl shadow-[0_0_60px_rgba(0,0,0,0.6)] flex flex-col h-full sm:h-[85vh] border border-white/5 animate-in fade-in zoom-in-95 duration-500">
         {/* Header with Search */}
-        <div className="p-4 border-b border-slate-100 !bg-white z-[10002] rounded-t-none sm:rounded-t-3xl shadow-sm">
-          <div className="flex justify-between items-center mb-3">
-             <div className="flex items-center gap-2">
-                <PinIcon size={18} className="text-blue-600" />
-                <h3 className="font-bold text-slate-800 text-sm italic">PH MAP PICKER</h3>
+        <div className="p-5 border-b border-white/5 !bg-slate-950/90 backdrop-blur-md z-[10002] rounded-t-none sm:rounded-t-3xl">
+          <div className="flex justify-between items-center mb-4">
+             <div className="flex items-center gap-2.5">
+                <div className="bg-blue-500/10 p-2 rounded-xl">
+                  <PinIcon size={18} className="text-blue-500" />
+                </div>
+                <h3 className="font-black text-white text-[11px] uppercase tracking-[0.2em]">PH GEO-LOCATOR</h3>
              </div>
-             <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
-                <X size={20} className="text-slate-400" />
+             <button onClick={onClose} className="p-2 hover:bg-slate-800 rounded-full transition-colors text-slate-500 hover:text-white">
+                <X size={22} />
              </button>
           </div>
           
@@ -120,26 +122,26 @@ const MapPickerContent: React.FC<MapPickerProps> = ({ onSelect, onClose }) => {
              <div className="relative">
                 <input 
                   type="text"
-                  placeholder="Search for a place in PH..."
+                  placeholder="EX: CEBU CITY, MANILA, RAMCAR..."
                   value={searchQuery}
                   onChange={(e) => {
                     setSearchQuery(e.target.value);
                     if (e.target.value.length >= 3) setShowResults(true);
                   }}
                   onFocus={() => { if (searchResults.length > 0) setShowResults(true) }}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 pl-10 pr-4 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all shadow-inner"
+                  className="w-full bg-slate-900 border border-slate-800 rounded-2xl py-4 pl-12 pr-4 text-xs font-black text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all placeholder:text-slate-600 uppercase tracking-widest"
                 />
-                <LSearch size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                {loading && <Loader2 size={16} className="absolute right-3.5 top-1/2 -translate-y-1/2 animate-spin text-blue-500" />}
+                <LSearch size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
+                {loading && <Loader2 size={18} className="absolute right-4 top-1/2 -translate-y-1/2 animate-spin text-blue-500" />}
              </div>
 
              {/* Search Results Dropdown inside Modal - Using Portal-like positioning or very high Z */}
              {showResults && (searchResults.length > 0 || loading) && (
-               <div className="absolute top-full left-0 right-0 mt-3 bg-white border-2 border-blue-500 shadow-[0_25px_70px_-15px_rgba(0,0,0,0.5)] rounded-2xl z-[100000] max-h-80 overflow-y-auto overflow-x-hidden animate-in slide-in-from-top-2 duration-300 ring-8 ring-blue-500/10">
+                <div className="absolute top-full left-0 right-0 mt-4 bg-slate-950 border border-slate-800 shadow-[0_25px_70px_-15px_rgba(0,0,0,0.8)] rounded-3xl z-[100000] max-h-80 overflow-y-auto overflow-x-hidden animate-in slide-in-from-top-4 duration-500">
                   {loading && (
-                    <div className="p-4 text-center text-slate-500 text-xs font-bold animate-pulse flex items-center justify-center gap-2 bg-slate-50">
+                    <div className="p-6 text-center text-slate-500 text-[9px] font-black animate-pulse flex items-center justify-center gap-3 bg-slate-900/50 tracking-[0.3em]">
                       <Loader2 size={16} className="animate-spin text-blue-500" />
-                      FETCHING PHILIPPINE PLACES...
+                      SYSTEM SEARCHING PH...
                     </div>
                   )}
                   {searchResults.map((res, i) => (
@@ -150,14 +152,14 @@ const MapPickerContent: React.FC<MapPickerProps> = ({ onSelect, onClose }) => {
                          e.stopPropagation();
                          selectSearchResult(res);
                       }}
-                      className="w-full text-left p-4 hover:bg-blue-50 border-b border-slate-100 last:border-0 flex items-start gap-4 transition-all group"
+                      className="w-full text-left p-5 hover:bg-slate-900 border-b border-white/5 last:border-0 flex items-start gap-4 transition-all group"
                     >
-                       <div className="bg-blue-100 p-2 rounded-xl text-blue-600 shrink-0 mt-0.5 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                       <div className="bg-slate-800 p-2.5 rounded-xl text-slate-500 shrink-0 mt-0.5 group-hover:bg-blue-500 group-hover:text-white transition-all">
                           <Compass size={16} />
                        </div>
                        <div className="flex flex-col overflow-hidden">
-                          <span className="text-sm text-slate-900 font-extrabold truncate group-hover:text-blue-700 transition-colors">{res.display_name.split(',')[0]}</span>
-                          <span className="text-[11px] text-slate-400 font-medium truncate py-0.5">{res.display_name.split(',').slice(1).join(',').trim()}</span>
+                          <span className="text-[11px] text-white font-black truncate group-hover:text-blue-400 transition-colors uppercase tracking-tight">{res.display_name.split(',')[0]}</span>
+                          <span className="text-[9px] text-slate-500 font-bold truncate py-1 uppercase tracking-widest">{res.display_name.split(',').slice(1).join(',').trim()}</span>
                        </div>
                     </button>
                   ))}
@@ -187,23 +189,23 @@ const MapPickerContent: React.FC<MapPickerProps> = ({ onSelect, onClose }) => {
               {position && <Marker position={position} icon={icon} />}
             </MapContainer>
 
-            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] w-full px-4 max-w-sm">
-               <div className="bg-white shadow-xl border border-slate-200 p-3 rounded-2xl text-center">
-                  <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-1">Instruction</p>
-                  <p className="text-sm font-medium text-slate-700">Tap anywhere on the Philippines map to drop a pin.</p>
+            <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[1000] w-full px-6 max-w-xs">
+               <div className="bg-slate-950 shadow-2xl border border-white/10 p-4 rounded-3xl text-center backdrop-blur-md">
+                  <p className="text-[8px] font-black text-blue-500 uppercase tracking-[0.3em] mb-1.5 opacity-80">Operational Guide</p>
+                  <p className="text-[10px] font-bold text-white uppercase tracking-widest leading-relaxed">Tap Anywhere on the Map to Pin Location</p>
                </div>
             </div>
           </div>
 
-          <div className="p-6 bg-white border-t border-slate-100 space-y-4">
-            <div className="min-h-[3rem] p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-start gap-2">
-              <div className="mt-1">
-                <div className={`w-2 h-2 rounded-full ${position ? "bg-green-500 animate-pulse" : "bg-slate-300"}`}></div>
+          <div className="p-6 bg-slate-950 border-t border-white/5 space-y-5">
+            <div className="min-h-[4rem] p-4 bg-slate-900 border border-slate-800 rounded-3xl flex items-center gap-4">
+              <div className="shrink-0">
+                <div className={`w-3.5 h-3.5 rounded-full ${position ? "bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)] animate-pulse" : "bg-slate-800"}`}></div>
               </div>
-              <div className="flex-1">
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-wide">Selected Location</p>
-                <p className="text-sm text-slate-800 font-medium">
-                  {loading ? "Geocoding location..." : address || (position ? `Pinned: ${position[0].toFixed(4)}, ${position[1].toFixed(4)}` : "No location selected yet.")}
+              <div className="flex-1 overflow-hidden">
+                <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] mb-1">Target Coordinates</p>
+                <p className="text-[11px] text-white font-black truncate tracking-tight uppercase">
+                  {loading ? "SYSTEM DECODING..." : address || (position ? `LAT: ${position[0].toFixed(4)} LON: ${position[1].toFixed(4)}` : "AWAITING SELECTION")}
                 </p>
               </div>
             </div>
@@ -215,10 +217,10 @@ const MapPickerContent: React.FC<MapPickerProps> = ({ onSelect, onClose }) => {
                 else if (position) onSelect(`Marker: ${position[0].toFixed(5)}, ${position[1].toFixed(5)}`);
                 onClose();
               }}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-5 rounded-3xl shadow-[0_15px_40px_rgba(37,99,235,0.3)] transition-all flex items-center justify-center gap-3 disabled:opacity-30 uppercase tracking-[0.15em] text-xs italic"
             >
-              <Check size={20} />
-              CONFIRM THIS LOCATION
+              <Check size={20} className="stroke-[3]" />
+              FINALIZE SELECTION
             </button>
           </div>
         </div>

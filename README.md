@@ -1,6 +1,27 @@
-# PH Toll & Fuel Calculator 🛣️⛽
+# Back-Toll Trip Calculator 🛣️⛽
 
-A modern, mobile-responsive web application designed for Philippine road trips. Estimate toll fees (NLEX, SCTEX, TPLEX) and fuel costs with high accuracy, featuring smart address autocomplete and map pinning.
+A modern, mobile-responsive web application designed for Philippine road trips. Estimate toll fees (NLEX, SCTEX, TPLEX, SLEX) and fuel costs with high accuracy, featuring smart address autocomplete and map pinning.
+
+## 🎯 Targeted Audience
+Optimized for the following high-utility groups:
+- **Transport Services**: Van rentals (Hiace/Urvan), Car rentals, and Trucking services.
+- **Logistics & Delivery**: Lalamove, Grab, and independent 4-wheel/6-wheel delivery drivers.
+- **Navigation Users**: Waze and Google Maps power-users who need secondary cost validation.
+- **Enthusiasts**: Big bike riders (Class 1) and road trip planners.
+
+## 🚀 SEO & Marketplace Strategy
+
+### SEO Metadata
+- **Title**: `Back-Toll Trip Calculator | PH Toll Fees & Fuel Estimate`
+- **Keywords**: `PH Toll Calculator`, `Back-Toll`, `NLEX rates 2024`, `SCTEX TPLEX fees`, `Hiace fuel consumption`, `L300 trucking cost`, `rental car trip planner`, `big bike toll class`, `delivery service expense`, `trucking services PH`, `Waze PH`, `Google Maps PH`.
+- **Description**: Essential trip planner for Van Hiace rentals, Lalamove/Grab delivery, big bike riders, and trucking services in the Philippines. Accurately estimate NLEX, SCTEX, TPLEX, and SLEX toll fees.
+
+### SEO Implementation Checklist
+- [x] **Lightweight Performance**: Built with Next.js 14 for fast TTI (Time to Interactive).
+- [x] **Semantic HTML**: Proper use of `h1`, `label`, and `main` tags for search engine crawling.
+- [x] **Meta Tags**: Optimized `<title>` and `<meta description>` in `layout.tsx`.
+- [x] **Mobile-First Design**: Responsive UI for drivers on the go (Waze/Google Maps users).
+- [x] **Custom Icons**: SVG-based icons (Lucide) for zero-weight visual assets.
 
 ## 🚀 Features
 
@@ -10,15 +31,10 @@ A modern, mobile-responsive web application designed for Philippine road trips. 
   - Supports **Class 1, 2, and 3** vehicles.
   - Covers **NLEX, SCTEX, and TPLEX** with up-to-date rates.
   - **Local-Aware Routing**: Residents of Bulacan/Marilao get optimized "Nearest Exit" suggestions (e.g., skips Balintawak segment automatically).
-- **Comprehensive Estimates**:
-  - Distance-based fuel calculation.
-  - Round-trip support (doubles tolls and distance).
-  - Customizable Efficiency (km/L) and Fuel Price.
-  - 10% (or custom) Contingency Buffer for snacks and traffic.
-- **Premium UI**: 
-  - Dark-mode inspired results with vibrant blue accents.
-  - Glassmorphic modal designs (fully opaque for clarity).
-  - Visual Route Breadcrumbs (Origin ➔ Destination).
+- **Premium Dark UI**: 
+  - Sleek Charcoal/Slate palette with vibrant blue accents.
+  - Glassmorphic modal designs for a "Pro" feel.
+  - Visual Route Breadcrumbs.
 
 ## 🛠️ Technology Stack
 
@@ -28,43 +44,6 @@ A modern, mobile-responsive web application designed for Philippine road trips. 
 - **Icons**: [Lucide React](https://lucide.dev/)
 - **Geocoding**: [Nominatim API](https://nominatim.org/) (Proxy via Next.js API Routes)
 - **Language**: TypeScript
-
-## 📂 Project Structure
-
-```text
-src/
-├── app/
-│   ├── api/geocode/      # Backend proxy for Nominatim (prevents CORS & rate-limiting)
-│   ├── page.tsx          # Main Application Shell
-│   └── globals.css       # Design System & Tailwind base
-├── components/
-│   ├── MapPicker.tsx     # Leaflet Map Modal & Search
-│   ├── CalculatorForm.tsx# Main Input Engine & Toll Logic
-│   └── ResultsDisplay.tsx# Final Cost Breakdown Modal
-├── config/
-│   └── data.ts           # Centralized Toll Rates & Fuel Prices
-├── services/
-│   ├── geocoding.ts      # Fetch logic for addresses
-│   └── routing.ts        # Smart Distance Heuristic Library
-└── utils/
-    └── calculator.ts     # Pure math for fuel, tolls, and totals
-```
-
-## 📝 How to Use & Customize
-
-### Adding New Tolls
-Modify `src/config/data.ts`. Add a new entry to the `TOLL_RATES` array:
-```typescript
-{
-  id: "mcx-daang-hari",
-  name: "Daang Hari to SLEX",
-  expressway: "MCX",
-  rates: { "Class 1": 17, "Class 2": 35, "Class 3": 52 }
-}
-```
-
-### Updating Fuel Prices
-The default prices are set in `src/config/data.ts` under `DEFAULT_DIESEL_PRICE` and `DEFAULT_UNLEADED_PRICE`.
 
 ## 🏗️ Development Setup
 

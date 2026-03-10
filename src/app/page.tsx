@@ -94,8 +94,10 @@ Calculated via PH Toll Calculator app`;
     <main className="container mx-auto max-w-md p-4 pt-8 pb-20">
       
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Trip Calculator</h1>
-        <p className="text-slate-500 mt-2 text-sm">Estimate toll fees and fuel cost</p>
+        <h1 className="text-3xl font-black text-white tracking-tighter uppercase italic">
+          <span className="text-blue-500">Back-</span>Toll
+        </h1>
+        <p className="text-slate-400 mt-2 text-xs font-bold uppercase tracking-widest">TRIP COST CALCULATOR</p>
       </div>
 
       <CalculatorForm onCalculate={handleCalculate} isLoading={isLoading} />

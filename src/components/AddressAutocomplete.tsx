@@ -109,42 +109,42 @@ export const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({
           onFocus={() => { if (results.length > 0) setIsOpen(true) }}
           placeholder={placeholder}
           autoComplete="off"
-          className="w-full rounded-none bg-transparent border-0 py-4 pl-12 pr-12 focus:ring-0 text-slate-800 font-semibold placeholder:text-slate-300 focus:outline-none"
+          className="w-full rounded-none bg-transparent border-0 py-4 pl-12 pr-12 focus:ring-0 text-white font-black placeholder:text-slate-600 focus:outline-none uppercase tracking-widest text-[11px]"
         />
         
-        <div className="absolute right-3 z-10 flex items-center gap-1">
+        <div className="absolute right-3 z-10 flex items-center gap-2">
           {isLoading && <Loader2 size={16} className="animate-spin text-blue-500 mr-1" />}
           <button 
             type="button"
             onClick={() => setShowMapModal(true)}
-            className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-400 transition-colors"
+            className="p-2 hover:bg-slate-800 rounded-xl text-blue-500 transition-all shadow-[0_0_15px_rgba(59,130,246,0.15)] border border-blue-500/10"
             title="Pin on map"
           >
-            <MapIcon size={18} />
+            <MapIcon size={18} className="stroke-[2.5]" />
           </button>
         </div>
       </div>
 
       {statusMsg && !isOpen && (
-        <div className="absolute left-12 right-12 top-11 z-[200] text-[10px] text-blue-500 font-bold bg-white/80 backdrop-blur-sm px-2 py-0.5 rounded pointer-events-none animate-pulse">
+        <div className="absolute left-12 right-12 top-[44px] z-[200] text-[8px] text-blue-400 font-black bg-slate-900 border border-blue-500/20 px-3 py-1.5 rounded-full pointer-events-none animate-pulse uppercase tracking-[0.2em] shadow-2xl">
            {statusMsg}
         </div>
       )}
 
       {(isOpen || isLoading) && (
-        <div className="absolute left-0 right-0 z-[1000] mt-1 bg-white rounded-2xl border border-slate-100 shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-1 duration-200">
-          <div className="max-h-60 overflow-y-auto">
+        <div className="absolute left-0 right-0 z-[1000] mt-3 bg-slate-950 rounded-3xl border border-slate-800 shadow-[0_25px_70px_-15px_rgba(0,0,0,0.8)] overflow-hidden animate-in fade-in slide-in-from-top-4 duration-500">
+          <div className="max-h-72 overflow-y-auto">
             {isLoading && (
-               <div className="px-4 py-6 flex flex-col items-center justify-center gap-2 text-slate-400">
-                  <Loader2 size={24} className="animate-spin text-blue-400" />
-                  <span className="text-xs font-bold uppercase tracking-widest">Searching map...</span>
+               <div className="px-6 py-10 flex flex-col items-center justify-center gap-4 text-slate-600">
+                  <Loader2 size={24} className="animate-spin text-blue-500" />
+                  <span className="text-[10px] font-black uppercase tracking-[0.3em]">Querying PH Database...</span>
                </div>
             )}
             
             {!isLoading && results.length === 0 && (
-               <div className="px-4 py-6 text-center text-slate-400">
-                  <p className="text-xs font-bold uppercase tracking-widest">No addresses found</p>
-                  <p className="text-[10px] mt-1">Try dropping a pin on the map instead.</p>
+               <div className="px-6 py-10 text-center text-slate-500">
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em]">Zero Results Found</p>
+                  <p className="text-[9px] mt-2 font-bold uppercase tracking-widest opacity-60">Try Pining Manually on Map</p>
                </div>
             )}
 
@@ -152,26 +152,26 @@ export const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({
               <div
                 key={i}
                 onClick={() => handleSelect(res)}
-                className="px-4 py-3 flex gap-3 text-sm border-b border-slate-50 hover:bg-slate-50 cursor-pointer transition-colors items-center"
+                className="px-6 py-4 flex gap-4 text-sm border-b border-white/5 hover:bg-slate-900 cursor-pointer transition-all items-center group"
               >
-                <div className="bg-slate-100 p-2 rounded-full text-slate-500 shrink-0">
-                  <Compass size={16} />
+                <div className="bg-slate-900 border border-slate-800 p-2.5 rounded-2xl text-slate-500 group-hover:text-blue-500 group-hover:bg-slate-800 transition-all shrink-0">
+                  <Compass size={18} className="stroke-[2.5]" />
                 </div>
                 <div className="flex flex-col overflow-hidden">
-                  <span className="font-semibold text-slate-800 truncate">{res.display_name.split(",")[0]}</span>
-                  <span className="text-[10px] text-slate-400 truncate tracking-tight">{res.display_name.split(",").slice(1).join(",").trim()}</span>
+                  <span className="font-black text-white truncate text-[11px] uppercase tracking-tight group-hover:text-blue-400 transition-colors">{res.display_name.split(",")[0]}</span>
+                  <span className="text-[8px] text-slate-600 truncate font-black uppercase tracking-widest mt-1">{res.display_name.split(",").slice(1).join(",").trim()}</span>
                 </div>
               </div>
             ))}
           </div>
           
-          <div className="p-2 border-t border-slate-50 bg-slate-50/50 text-center">
+          <div className="p-3 border-t border-white/5 bg-slate-900 text-center">
              <button 
                 type="button" 
                 onClick={() => { setIsOpen(false); setShowMapModal(true); }}
-                className="text-[10px] font-bold text-blue-600 uppercase tracking-widest hover:underline"
+                className="text-[9px] font-black text-blue-500 uppercase tracking-[0.2em] hover:text-white transition-colors py-2"
              >
-                Can&apos;t find it? Pin on map
+                Can&apos;t find it? Open PH Map Picker
              </button>
           </div>
         </div>
