@@ -1,8 +1,9 @@
 {
-  "name": "PH Toll Calculator",
-  "short_name": "Toll Calc",
-  "theme_color": "#0f172a",
-  "background_color": "#f8fafc",
+  "name": "Back-Toll Trip Calculator",
+  "short_name": "Back-Toll",
+  "description": "PH Toll & Fuel Estimator for drivers, delivery, and trucking services.",
+  "theme_color": "#020617",
+  "background_color": "#020617",
   "display": "standalone",
   "orientation": "portrait",
   "scope": "/",

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { InstallPrompt } from "../components/InstallPrompt";
 
 export const metadata: Metadata = {
   title: "Back-Toll Trip Calculator | PH Toll Fees & Fuel Estimate",
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#020617", // Slate-950
+  themeColor: "#020617",
 };
 
 export default function RootLayout({
@@ -22,10 +23,14 @@ export default function RootLayout({
       <head>
         <link rel="apple-touch-icon" href="/icon.svg" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Back-Toll" />
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossOrigin="" />
       </head>
       <body className="min-h-screen bg-[#020617] text-slate-100 antialiased selection:bg-blue-500/30">
         {children}
+        <InstallPrompt />
         <script dangerouslySetInnerHTML={{
           __html: `
             if ('serviceWorker' in navigator) {
